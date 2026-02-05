@@ -1,0 +1,509 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Will you be my Valentine?</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            min-height: 100vh;
+            background: linear-gradient(135deg, #fce4ec 0%, #f8bbd0 50%, #fce4ec 100%);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: 'Playfair Display', Georgia, 'Times New Roman', serif;
+            overflow: hidden;
+        }
+
+        /* ── Landing Card ── */
+        #card {
+            background: #fff;
+            border-radius: 24px;
+            padding: 70px 90px;
+            text-align: center;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.08);
+            transition: opacity 0.6s ease, transform 0.6s ease;
+            max-width: 620px;
+            position: relative;
+            z-index: 50;
+        }
+        #card.hidden {
+            opacity: 0;
+            transform: scale(0.92);
+            pointer-events: none;
+        }
+
+        .hyena {
+            width: 170px;
+            height: 170px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-bottom: 30px;
+            border: 3px solid #fce4ec;
+        }
+
+        #card h1 {
+            font-size: 2.3rem;
+            font-weight: 400;
+            color: #333;
+            margin-bottom: 40px;
+            line-height: 1.5;
+        }
+
+        .buttons {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 24px;
+        }
+
+        .btn {
+            padding: 20px 52px;
+            font-size: 1.45rem;
+            font-weight: 600;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            font-family: inherit;
+            transition: all 0.3s ease;
+            letter-spacing: 0.02em;
+        }
+
+        #yes-btn {
+            background: #e91e63;
+            color: #fff;
+        }
+        #yes-btn:hover {
+            background: #d81b60;
+            transform: scale(1.03);
+        }
+
+        #no-btn {
+            background: #f5f5f5;
+            color: #777;
+        }
+        #no-btn.dodging {
+            position: fixed;
+            z-index: 999;
+            transition: left 0.35s cubic-bezier(0.34,1.56,0.64,1),
+                        top 0.35s cubic-bezier(0.34,1.56,0.64,1),
+                        font-size 0.3s ease,
+                        padding 0.3s ease;
+        }
+
+        /* ── Celebration ── */
+        #celebration {
+            position: fixed;
+            inset: 0;
+            display: none;
+            overflow: hidden;
+        }
+        #celebration.active { display: block; }
+
+        #bouquet {
+            position: absolute;
+            top: 32%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 10;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        #bouquet.visible { opacity: 1; }
+
+        #bouquet path {
+            fill: none;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+        }
+        .stem         { stroke: #5a8f6a; stroke-width: 2.5; }
+        .leaf         { stroke: #6aaa7a; stroke-width: 2; }
+        .flower       { stroke: #e91e63; stroke-width: 2; }
+        .flower-inner { stroke: #f06292; stroke-width: 1.5; }
+        .bow          { stroke: #e91e63; stroke-width: 2.2; }
+
+        .collage-photo {
+            position: fixed;
+            background: #fff;
+            padding: 6px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+            opacity: 0;
+            transform: scale(0);
+            z-index: 5;
+        }
+        .collage-photo.visible {
+            opacity: 1;
+            transition: opacity 0.7s ease,
+                        transform 0.8s cubic-bezier(0.34,1.56,0.64,1);
+        }
+        .collage-photo img {
+            display: block;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        #love-text {
+            position: absolute;
+            left: 50%;
+            top: 62%;
+            transform: translateX(-50%);
+            font-size: 1.4rem;
+            font-style: italic;
+            font-weight: 400;
+            color: #e91e63;
+            opacity: 0;
+            transition: opacity 1.2s ease;
+            z-index: 20;
+            text-align: center;
+            line-height: 1.8;
+        }
+        #love-text p {
+            margin: 0;
+            white-space: nowrap;
+        }
+        #love-text.visible { opacity: 1; }
+
+        #daisy {
+            position: absolute;
+            right: 32vw;
+            bottom: 8vh;
+            z-index: 15;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        #daisy.visible { opacity: 1; }
+        #daisy path {
+            stroke-linecap: round;
+            stroke-linejoin: round;
+        }
+        .daisy-stem   { fill: none; stroke: #5a8f6a; stroke-width: 4; }
+        .daisy-leaf   { fill: none; stroke: #6aaa7a; stroke-width: 3.5; }
+        .daisy-petal  { fill: #fff; stroke: #fff; stroke-width: 1; }
+        .daisy-center { fill: #f9a825; stroke: #e8a000; stroke-width: 1.5; }
+        #daisy ellipse { fill: #f9a825; stroke: #e8a000; stroke-width: 1.5; }
+    </style>
+</head>
+<body>
+
+<!-- Landing -->
+<div id="card">
+    <img src="photos/hyena.jpg" class="hyena" alt="">
+    <h1>Adriana, will you be my Valentine?</h1>
+    <div class="buttons">
+        <button class="btn" id="yes-btn">Yes</button>
+        <button class="btn" id="no-btn">No</button>
+    </div>
+</div>
+
+<!-- Celebration -->
+<div id="celebration">
+    <svg id="bouquet" viewBox="0 0 200 320" width="282" height="452">
+        <!-- stems -->
+        <path class="stem" d="M100,290 C92,260 78,220 68,175 C62,150 56,120 52,90"/>
+        <path class="stem" d="M100,290 C100,255 100,220 100,175 C100,145 100,115 100,75"/>
+        <path class="stem" d="M100,290 C108,260 122,220 132,175 C138,150 144,120 148,90"/>
+
+        <!-- leaves -->
+        <path class="leaf" d="M86,235 C68,228 52,218 48,200 C60,208 74,220 86,235"/>
+        <path class="leaf" d="M114,215 C132,208 148,198 152,180 C140,188 126,200 114,215"/>
+        <path class="leaf" d="M90,195 C72,188 56,178 52,160 C64,168 78,180 90,195"/>
+        <path class="leaf" d="M110,175 C128,168 144,158 148,140 C136,148 122,160 110,175"/>
+
+        <!-- left flower -->
+        <path class="flower" d="M52,90 C42,84 36,72 40,60 C44,48 54,46 56,54 C52,44 58,36 66,40 C74,44 74,56 70,64 C76,56 84,54 84,64 C84,74 74,84 64,88Z"/>
+        <path class="flower-inner" d="M58,72 C56,66 58,60 62,58 C66,56 70,60 68,66 C66,70 60,74 58,72"/>
+
+        <!-- center flower -->
+        <path class="flower" d="M100,75 C90,68 84,56 88,42 C92,30 102,26 104,36 C102,26 112,24 116,36 C120,48 114,62 106,70"/>
+        <path class="flower" d="M100,75 C108,68 116,56 112,42 C108,30 98,26 96,36 C98,26 88,24 84,36 C80,48 86,62 94,70"/>
+        <path class="flower-inner" d="M96,56 C94,50 96,44 100,42 C104,44 106,50 104,56 C102,60 98,60 96,56"/>
+
+        <!-- right flower -->
+        <path class="flower" d="M148,90 C158,84 164,72 160,60 C156,48 146,46 144,54 C148,44 142,36 134,40 C126,44 126,56 130,64 C124,56 116,54 116,64 C116,74 126,84 136,88Z"/>
+        <path class="flower-inner" d="M142,72 C144,66 142,60 138,58 C134,56 130,60 132,66 C134,70 140,74 142,72"/>
+
+        <!-- small buds -->
+        <path class="flower" d="M72,115 C66,110 64,100 68,94 C72,88 78,92 76,98 C80,92 84,96 82,102 C80,108 74,114 72,115"/>
+        <path class="flower" d="M128,115 C134,110 136,100 132,94 C128,88 122,92 124,98 C120,92 116,96 118,102 C120,108 126,114 128,115"/>
+
+        <!-- bow -->
+        <path class="bow" d="M100,278 C84,272 74,262 78,254 C82,246 94,254 100,266"/>
+        <path class="bow" d="M100,278 C116,272 126,262 122,254 C118,246 106,254 100,266"/>
+        <path class="bow" d="M96,280 C92,292 94,300 98,304"/>
+        <path class="bow" d="M104,280 C108,292 106,300 102,304"/>
+    </svg>
+
+    <div id="love-text">
+        <p>Margarita, Bella, Schatzi, Oxygen, Friend.</p>
+        <p>I call you these names, but in reality you mean so much more to me.</p>
+        <p>I miss you like hell.</p>
+        <p>Happy Valentine's Day.</p>
+    </div>
+
+    <svg id="daisy" viewBox="0 0 90 150" width="90" height="150">
+        <!-- S-curved stem -->
+        <path class="daisy-stem" d="M45,150 C30,130 60,110 45,90 C35,75 40,62 45,52"/>
+        <!-- small leaf -->
+        <path class="daisy-leaf" d="M43,108 C33,101 27,91 31,83 C37,89 41,99 43,108"/>
+        <!-- 21 wide petals radiating from center -->
+        <path class="daisy-petal" d="M45,42 C40,32 38,18 45,6 C52,18 50,32 45,42"/>
+        <path class="daisy-petal" d="M48,42 C46,32 48,18 55,8 C58,20 52,32 48,42"/>
+        <path class="daisy-petal" d="M42,42 C44,32 42,18 35,8 C32,20 38,32 42,42"/>
+        <path class="daisy-petal" d="M52,44 C56,36 66,26 76,22 C70,34 60,40 52,44"/>
+        <path class="daisy-petal" d="M38,44 C34,36 24,26 14,22 C20,34 30,40 38,44"/>
+        <path class="daisy-petal" d="M54,48 C62,44 74,40 86,42 C76,50 64,50 54,48"/>
+        <path class="daisy-petal" d="M36,48 C28,44 16,40 4,42 C14,50 26,50 36,48"/>
+        <path class="daisy-petal" d="M55,52 C64,52 78,54 88,60 C78,64 64,58 55,52"/>
+        <path class="daisy-petal" d="M35,52 C26,52 12,54 2,60 C12,64 26,58 35,52"/>
+        <path class="daisy-petal" d="M54,56 C62,60 72,70 78,82 C68,76 58,64 54,56"/>
+        <path class="daisy-petal" d="M36,56 C28,60 18,70 12,82 C22,76 32,64 36,56"/>
+        <path class="daisy-petal" d="M51,58 C56,66 60,78 58,90 C50,80 48,68 51,58"/>
+        <path class="daisy-petal" d="M39,58 C34,66 30,78 32,90 C40,80 42,68 39,58"/>
+        <path class="daisy-petal" d="M45,60 C45,70 45,82 45,94 C45,82 45,70 45,60"/>
+        <path class="daisy-petal" d="M50,43 C52,34 58,22 68,14 C62,26 54,36 50,43"/>
+        <path class="daisy-petal" d="M40,43 C38,34 32,22 22,14 C28,26 36,36 40,43"/>
+        <path class="daisy-petal" d="M53,50 C60,48 72,46 84,50 C72,56 60,54 53,50"/>
+        <path class="daisy-petal" d="M37,50 C30,48 18,46 6,50 C18,56 30,54 37,50"/>
+        <path class="daisy-petal" d="M52,54 C60,56 70,62 76,72 C66,68 56,60 52,54"/>
+        <path class="daisy-petal" d="M38,54 C30,56 20,62 14,72 C24,68 34,60 38,54"/>
+        <path class="daisy-petal" d="M48,59 C52,68 54,80 50,92 C46,80 46,68 48,59"/>
+        <!-- yellow center -->
+        <ellipse class="daisy-center" cx="45" cy="50" rx="12" ry="11"/>
+    </svg>
+</div>
+
+<script>
+    const card     = document.getElementById('card');
+    const yesBtn   = document.getElementById('yes-btn');
+    const noBtn    = document.getElementById('no-btn');
+    const celeb    = document.getElementById('celebration');
+    const bouquet  = document.getElementById('bouquet');
+    const loveText = document.getElementById('love-text');
+    const daisy    = document.getElementById('daisy');
+
+    /* ── Dodge game ── */
+    let dodges = 0;
+    const MAX_DODGES = 20;
+
+    let yesFontSize = 1.45;
+    let noFontSize  = 1.45;
+    let yesPadV = 20, yesPadH = 52;
+    let noPadV  = 20, noPadH  = 52;
+
+    const YES_MAX_FONT = 3.2,  NO_MIN_FONT  = 0.4;
+    const YES_MAX_PAD_V = 34,  YES_MAX_PAD_H = 80;
+    const NO_MIN_PAD_V  = 3,   NO_MIN_PAD_H  = 8;
+
+    const PROXIMITY = 80; /* px – dodge triggers when cursor is this close */
+    let dodging = false;
+
+    function dodgeNoBtn() {
+        if (!noBtn.classList.contains('dodging')) {
+            const r = noBtn.getBoundingClientRect();
+            noBtn.classList.add('dodging');
+            noBtn.style.left = r.left + 'px';
+            noBtn.style.top  = r.top  + 'px';
+            document.body.appendChild(noBtn);
+        }
+
+        const pad = 50;
+        const nx = pad + Math.random() * (window.innerWidth  - noBtn.offsetWidth  - pad * 2);
+        const ny = pad + Math.random() * (window.innerHeight - noBtn.offsetHeight - pad * 2);
+        noBtn.style.left = nx + 'px';
+        noBtn.style.top  = ny + 'px';
+
+        dodges++;
+        if (dodges <= MAX_DODGES) {
+            noFontSize = Math.max(NO_MIN_FONT,  noFontSize - 0.09);
+            noPadV     = Math.max(NO_MIN_PAD_V,  noPadV - 1.4);
+            noPadH     = Math.max(NO_MIN_PAD_H,  noPadH - 3.5);
+            noBtn.style.fontSize = noFontSize + 'rem';
+            noBtn.style.padding  = noPadV + 'px ' + noPadH + 'px';
+
+            yesFontSize = Math.min(YES_MAX_FONT, yesFontSize + 0.15);
+            yesPadV     = Math.min(YES_MAX_PAD_V, yesPadV + 1.1);
+            yesPadH     = Math.min(YES_MAX_PAD_H, yesPadH + 2.2);
+            yesBtn.style.fontSize = yesFontSize + 'rem';
+            yesBtn.style.padding  = yesPadV + 'px ' + yesPadH + 'px';
+        }
+    }
+
+    /* Proximity detection: dodge when cursor gets near, not just on hover */
+    document.addEventListener('mousemove', (e) => {
+        if (noBtn.style.display === 'none') return;
+        const r = noBtn.getBoundingClientRect();
+        const cx = r.left + r.width / 2;
+        const cy = r.top  + r.height / 2;
+        const dx = e.clientX - cx;
+        const dy = e.clientY - cy;
+        const dist = Math.sqrt(dx * dx + dy * dy);
+        if (dist < PROXIMITY + Math.max(r.width, r.height) / 2) {
+            dodgeNoBtn();
+        }
+    });
+
+    /* ── Yes click → celebration ── */
+    yesBtn.addEventListener('click', () => {
+        card.classList.add('hidden');
+        noBtn.style.display = 'none';
+
+        setTimeout(() => {
+            card.style.display = 'none';
+            celeb.classList.add('active');
+
+            /* Let the browser lay out the SVG before measuring path lengths */
+            requestAnimationFrame(() => {
+                bouquet.classList.add('visible');
+                animateBouquet();
+
+                setTimeout(scatterPhotos, 600);
+                setTimeout(() => {
+                    daisy.classList.add('visible');
+                    animateDaisy();
+                }, 3400);
+                setTimeout(() => loveText.classList.add('visible'), 3100);
+            });
+        }, 650);
+    });
+
+    /* ── Bouquet line-draw ── */
+    function animateBouquet() {
+        const paths = bouquet.querySelectorAll('path');
+
+        /* 1) Set initial hidden state (no transition yet) */
+        paths.forEach(p => {
+            const len = p.getTotalLength();
+            p.style.transition = 'none';
+            p.style.strokeDasharray  = len;
+            p.style.strokeDashoffset = len;
+        });
+
+        /* 2) Force reflow so the browser registers the initial state */
+        bouquet.getBoundingClientRect();
+
+        /* 3) Now apply transitions and animate to 0 */
+        let delay = 0;
+        paths.forEach(p => {
+            const len = p.getTotalLength();
+            const speed = p.classList.contains('stem') ? 120
+                        : p.classList.contains('leaf') ? 100
+                        : 80;
+            const dur = Math.max(0.4, len / speed);
+
+            p.style.transition = 'stroke-dashoffset ' + dur + 's ease ' + delay + 's';
+
+            if      (p.classList.contains('stem')) delay += 0.18;
+            else if (p.classList.contains('leaf')) delay += 0.12;
+            else if (p.classList.contains('bow'))  delay += 0.10;
+            else                                   delay += 0.14;
+
+            p.style.strokeDashoffset = '0';
+        });
+    }
+
+    /* ── Daisy animation ── */
+    function animateDaisy() {
+        const stem = daisy.querySelector('.daisy-stem');
+        const leaf = daisy.querySelector('.daisy-leaf');
+        const petals = daisy.querySelectorAll('.daisy-petal');
+        const center = daisy.querySelector('ellipse');
+
+        /* Hide petals and center initially */
+        petals.forEach(p => {
+            p.style.opacity = '0';
+            p.style.transform = 'scale(0.3)';
+            p.style.transformOrigin = '45px 50px';
+            p.style.transition = 'none';
+        });
+        center.style.opacity = '0';
+        center.style.transform = 'scale(0)';
+        center.style.transformOrigin = '45px 50px';
+        center.style.transition = 'none';
+
+        /* Set up stem and leaf for line drawing */
+        [stem, leaf].forEach(p => {
+            const len = p.getTotalLength();
+            p.style.transition = 'none';
+            p.style.strokeDasharray = len;
+            p.style.strokeDashoffset = len;
+        });
+
+        daisy.getBoundingClientRect();
+
+        /* Draw stem */
+        stem.style.transition = 'stroke-dashoffset 0.5s ease';
+        stem.style.strokeDashoffset = '0';
+
+        /* Draw leaf after stem */
+        setTimeout(() => {
+            leaf.style.transition = 'stroke-dashoffset 0.3s ease';
+            leaf.style.strokeDashoffset = '0';
+        }, 400);
+
+        /* Bloom petals together */
+        setTimeout(() => {
+            petals.forEach((p, i) => {
+                p.style.transition = 'opacity 0.4s ease ' + (i * 0.03) + 's, transform 0.5s cubic-bezier(0.34,1.56,0.64,1) ' + (i * 0.03) + 's';
+                p.style.opacity = '1';
+                p.style.transform = 'scale(1)';
+            });
+        }, 650);
+
+        /* Pop in center */
+        setTimeout(() => {
+            center.style.transition = 'opacity 0.3s ease, transform 0.4s cubic-bezier(0.34,1.56,0.64,1)';
+            center.style.opacity = '1';
+            center.style.transform = 'scale(1)';
+        }, 1000);
+    }
+
+    /* ── Photo collage ── */
+    function scatterPhotos() {
+        const photos = [
+            { src: 'photos/45AE62F1-A26B-4FF1-83AB-F50F330DBDE5_1_105_c.jpeg', w: 158, h: 211 },
+            { src: 'photos/70690C3A-7A97-4BF9-9FF4-1E2101E52FF5_1_105_c.jpeg', w: 217, h: 290 },
+            { src: 'photos/IMG-20250602-WA0005.jpg',  w: 173, h: 230 },
+            { src: 'photos/IMG-20250826-WA0001.jpg',  w: 154, h: 275 },
+            { src: 'photos/IMG-20250826-WA0005.jpg',  w: 257, h: 151 },
+            { src: 'photos/IMG-20250826-WA0006.jpg',  w: 154, h: 275 },
+            { src: 'photos/PXL-20250604-224623582MP.gif', w: 198, h: 264 },
+        ];
+
+        /* Left column: photos 0, 2, 4, 6  |  Right column: photos 5, 3, 1 */
+        const spots = [
+            { x: 4,  y: 1,  r: -7  },   /* 0  top-left      (car girl)      */
+            { x: 78, y: 56, r: -4  },   /* 1  bottom-right   (restaurant)    */
+            { x: 12, y: 24, r: 9   },   /* 2  left-mid       (store)         */
+            { x: 76, y: 20, r: 4   },   /* 3  right-mid      (kid+cat)       */
+            { x: 18, y: 5, r: 5    },   /* 4  left-low       (mom+kid)       */
+            { x: 64, y: 1,  r: -7  },   /* 5  top-right      (pink dress)    */
+            { x: 8, y: 56, r: -3  },   /* 6  left-bottom    (GIF warehouse) */
+        ];
+
+        photos.forEach((ph, i) => {
+            const wrap = document.createElement('div');
+            wrap.className = 'collage-photo';
+            wrap.style.width  = ph.w + 'px';
+            wrap.style.height = ph.h + 'px';
+            wrap.style.left   = spots[i].x + 'vw';
+            wrap.style.top    = spots[i].y + 'vh';
+
+            const img = document.createElement('img');
+            img.src = ph.src;
+            wrap.appendChild(img);
+            celeb.appendChild(wrap);
+
+            setTimeout(() => {
+                wrap.classList.add('visible');
+                wrap.style.transform = 'scale(1) rotate(' + spots[i].r + 'deg)';
+            }, i * 220);
+        });
+    }
+</script>
+</body>
+</html>
