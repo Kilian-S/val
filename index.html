@@ -157,7 +157,7 @@
             font-weight: 400;
             color: #e91e63;
             opacity: 0;
-            transition: opacity 1.2s ease;
+            transition: opacity 2.8s ease;
             z-index: 20;
             text-align: center;
             line-height: 1.8;
@@ -214,22 +214,71 @@
         <path class="leaf" d="M90,195 C72,188 56,178 52,160 C64,168 78,180 90,195"/>
         <path class="leaf" d="M110,175 C128,168 144,158 148,140 C136,148 122,160 110,175"/>
 
-        <!-- left flower -->
-        <path class="flower" d="M52,90 C42,84 36,72 40,60 C44,48 54,46 56,54 C52,44 58,36 66,40 C74,44 74,56 70,64 C76,56 84,54 84,64 C84,74 74,84 64,88Z"/>
-        <path class="flower-inner" d="M58,72 C56,66 58,60 62,58 C66,56 70,60 68,66 C66,70 60,74 58,72"/>
+        <!-- left rose (shifted down+left) -->
+        <!-- spiral center -->
+        <path class="flower-inner" d="M52,58 C49,56 48,52 50,50 C52,48 56,49 57,52 C58,55 56,58 53,59"/>
+        <path class="flower-inner" d="M53,59 C50,60 46,58 45,54 C44,50 46,46 50,45 C54,44 59,46 61,50 C63,54 62,60 58,63"/>
+        <!-- inner petals -->
+        <path class="flower" d="M58,63 C54,66 48,66 44,62 C40,58 39,51 42,46 C45,41 52,39 58,41 C64,43 69,49 69,56"/>
+        <path class="flower" d="M69,56 C69,63 65,70 58,74 C51,78 42,78 36,74"/>
+        <path class="flower" d="M42,46 C38,50 36,57 38,64 C40,71 46,78 54,80"/>
+        <!-- outer petals -->
+        <path class="flower" d="M36,74 C30,70 26,62 28,54 C30,46 36,40 44,38 C52,36 62,39 68,46"/>
+        <path class="flower" d="M54,80 C62,82 70,79 75,72 C80,65 80,56 76,49"/>
+        <path class="flower" d="M68,46 C72,51 74,58 72,66 C70,74 64,81 56,84"/>
+        <!-- base petals -->
+        <path class="flower" d="M28,54 C26,62 28,72 34,80 C40,88 50,93 60,92"/>
+        <path class="flower" d="M56,84 C48,88 38,88 32,82"/>
+        <path class="flower" d="M76,49 C80,56 80,66 76,76 C72,86 64,93 54,94"/>
 
-        <!-- center flower -->
-        <path class="flower" d="M100,75 C90,68 84,56 88,42 C92,30 102,26 104,36 C102,26 112,24 116,36 C120,48 114,62 106,70"/>
-        <path class="flower" d="M100,75 C108,68 116,56 112,42 C108,30 98,26 96,36 C98,26 88,24 84,36 C80,48 86,62 94,70"/>
-        <path class="flower-inner" d="M96,56 C94,50 96,44 100,42 C104,44 106,50 104,56 C102,60 98,60 96,56"/>
+        <!-- center rose (larger) -->
+        <!-- spiral center -->
+        <path class="flower-inner" d="M100,38 C96,36 94,32 96,28 C98,24 103,24 105,27 C107,30 105,35 101,37"/>
+        <path class="flower-inner" d="M101,37 C97,39 92,37 90,33 C88,29 89,24 93,21 C97,18 104,18 108,22 C112,26 113,33 109,38"/>
+        <path class="flower-inner" d="M109,38 C105,43 98,45 92,43 C86,41 82,35 83,28"/>
+        <!-- inner petals -->
+        <path class="flower" d="M83,28 C84,21 90,15 98,14 C106,13 114,17 118,24 C122,31 121,41 115,48"/>
+        <path class="flower" d="M92,43 C86,48 78,50 72,47 C66,44 62,38 62,30"/>
+        <path class="flower" d="M115,48 C109,55 100,59 91,57 C82,55 75,48 73,40"/>
+        <!-- outer petals -->
+        <path class="flower" d="M62,30 C62,22 67,14 76,10 C85,6 96,7 105,12 C114,17 121,27 122,38"/>
+        <path class="flower" d="M73,40 C69,48 69,58 74,66 C79,74 88,79 98,79"/>
+        <path class="flower" d="M122,38 C123,48 120,59 112,67 C104,75 93,78 83,75"/>
+        <!-- base petals -->
+        <path class="flower" d="M98,79 C108,79 118,74 124,66 C130,58 131,48 128,39"/>
+        <path class="flower" d="M83,75 C75,72 68,65 66,56 C64,47 67,38 74,32"/>
+        <path class="flower" d="M128,39 C130,48 128,58 122,67 C116,76 106,82 96,82"/>
 
-        <!-- right flower -->
-        <path class="flower" d="M148,90 C158,84 164,72 160,60 C156,48 146,46 144,54 C148,44 142,36 134,40 C126,44 126,56 130,64 C124,56 116,54 116,64 C116,74 126,84 136,88Z"/>
-        <path class="flower-inner" d="M142,72 C144,66 142,60 138,58 C134,56 130,60 132,66 C134,70 140,74 142,72"/>
+        <!-- right rose (shifted down+right) -->
+        <!-- spiral center -->
+        <path class="flower-inner" d="M148,58 C151,56 152,52 150,50 C148,48 144,49 143,52 C142,55 144,58 147,59"/>
+        <path class="flower-inner" d="M147,59 C150,60 154,58 155,54 C156,50 154,46 150,45 C146,44 141,46 139,50 C137,54 138,60 142,63"/>
+        <!-- inner petals -->
+        <path class="flower" d="M142,63 C146,66 152,66 156,62 C160,58 161,51 158,46 C155,41 148,39 142,41 C136,43 131,49 131,56"/>
+        <path class="flower" d="M131,56 C131,63 135,70 142,74 C149,78 158,78 164,74"/>
+        <path class="flower" d="M158,46 C162,50 164,57 162,64 C160,71 154,78 146,80"/>
+        <!-- outer petals -->
+        <path class="flower" d="M164,74 C170,70 174,62 172,54 C170,46 164,40 156,38 C148,36 138,39 132,46"/>
+        <path class="flower" d="M146,80 C138,82 130,79 125,72 C120,65 120,56 124,49"/>
+        <path class="flower" d="M132,46 C128,51 126,58 128,66 C130,74 136,81 144,84"/>
+        <!-- base petals -->
+        <path class="flower" d="M172,54 C174,62 172,72 166,80 C160,88 150,93 140,92"/>
+        <path class="flower" d="M144,84 C152,88 162,88 168,82"/>
+        <path class="flower" d="M124,49 C120,56 120,66 124,76 C128,86 136,93 146,94"/>
 
-        <!-- small buds -->
-        <path class="flower" d="M72,115 C66,110 64,100 68,94 C72,88 78,92 76,98 C80,92 84,96 82,102 C80,108 74,114 72,115"/>
-        <path class="flower" d="M128,115 C134,110 136,100 132,94 C128,88 122,92 124,98 C120,92 116,96 118,102 C120,108 126,114 128,115"/>
+        <!-- small rose buds -->
+        <!-- left bud -->
+        <path class="flower-inner" d="M72,100 C70,98 70,95 72,94 C74,93 76,95 75,98 C74,100 72,101 71,100"/>
+        <path class="flower" d="M71,100 C68,102 65,101 64,98 C63,95 64,91 67,89 C70,87 75,88 78,91 C81,94 81,99 79,103"/>
+        <path class="flower" d="M79,103 C77,107 73,110 68,110 C63,110 59,107 58,103"/>
+        <path class="flower" d="M58,103 C56,99 57,94 60,90 C63,86 69,84 75,85"/>
+        <path class="flower" d="M75,85 C80,86 85,90 86,96 C87,102 84,108 79,112"/>
+        <!-- right bud -->
+        <path class="flower-inner" d="M128,100 C130,98 130,95 128,94 C126,93 124,95 125,98 C126,100 128,101 129,100"/>
+        <path class="flower" d="M129,100 C132,102 135,101 136,98 C137,95 136,91 133,89 C130,87 125,88 122,91 C119,94 119,99 121,103"/>
+        <path class="flower" d="M121,103 C123,107 127,110 132,110 C137,110 141,107 142,103"/>
+        <path class="flower" d="M142,103 C144,99 143,94 140,90 C137,86 131,84 125,85"/>
+        <path class="flower" d="M125,85 C120,86 115,90 114,96 C113,102 116,108 121,112"/>
 
         <!-- bow -->
         <path class="bow" d="M100,278 C84,272 74,262 78,254 C82,246 94,254 100,266"/>
@@ -359,14 +408,25 @@
             /* Let the browser lay out the SVG before measuring path lengths */
             requestAnimationFrame(() => {
                 bouquet.classList.add('visible');
-                animateBouquet();
+                const bouquetDuration = animateBouquet();
 
-                setTimeout(scatterPhotos, 600);
+                /* Photos start after bouquet finishes */
+                const photosStart = bouquetDuration * 1000 + 400;
+                const photosDuration = 7 * 800 + 500; /* 7 photos × stagger + settle time */
+
+                /* Daisy starts after photos are done */
+                const daisyStart = photosStart + photosDuration;
+
+                setTimeout(scatterPhotos, photosStart);
                 setTimeout(() => {
                     daisy.classList.add('visible');
-                    animateDaisy();
-                }, 3400);
-                setTimeout(() => loveText.classList.add('visible'), 3100);
+                    animateDaisy(() => {
+                        /* Text fades in after daisy completes + settle time */
+                        setTimeout(() => {
+                            loveText.classList.add('visible');
+                        }, 0);
+                    });
+                }, daisyStart);
             });
         }, 650);
     });
@@ -388,6 +448,7 @@
 
         /* 3) Now apply transitions and animate to 0 */
         let delay = 0;
+        let maxEndTime = 0;
         paths.forEach(p => {
             const len = p.getTotalLength();
             const speed = p.classList.contains('stem') ? 120
@@ -397,17 +458,22 @@
 
             p.style.transition = 'stroke-dashoffset ' + dur + 's ease ' + delay + 's';
 
-            if      (p.classList.contains('stem')) delay += 0.18;
-            else if (p.classList.contains('leaf')) delay += 0.12;
-            else if (p.classList.contains('bow'))  delay += 0.10;
-            else                                   delay += 0.14;
+            const endTime = delay + dur;
+            if (endTime > maxEndTime) maxEndTime = endTime;
+
+            if      (p.classList.contains('stem')) delay += 0.25;
+            else if (p.classList.contains('leaf')) delay += 0.18;
+            else if (p.classList.contains('bow'))  delay += 0.15;
+            else                                   delay += 0.12;
 
             p.style.strokeDashoffset = '0';
         });
+
+        return maxEndTime; /* total duration in seconds */
     }
 
     /* ── Daisy animation ── */
-    function animateDaisy() {
+    function animateDaisy(onComplete) {
         const stem = daisy.querySelector('.daisy-stem');
         const leaf = daisy.querySelector('.daisy-leaf');
         const petals = daisy.querySelectorAll('.daisy-petal');
@@ -435,31 +501,38 @@
 
         daisy.getBoundingClientRect();
 
-        /* Draw stem */
-        stem.style.transition = 'stroke-dashoffset 0.5s ease';
+        /* Draw stem (slower) */
+        stem.style.transition = 'stroke-dashoffset 1.2s ease';
         stem.style.strokeDashoffset = '0';
 
         /* Draw leaf after stem */
         setTimeout(() => {
-            leaf.style.transition = 'stroke-dashoffset 0.3s ease';
+            leaf.style.transition = 'stroke-dashoffset 0.6s ease';
             leaf.style.strokeDashoffset = '0';
-        }, 400);
+        }, 1000);
 
-        /* Bloom petals together */
+        /* Bloom petals one by one (slower stagger) */
         setTimeout(() => {
             petals.forEach((p, i) => {
-                p.style.transition = 'opacity 0.4s ease ' + (i * 0.03) + 's, transform 0.5s cubic-bezier(0.34,1.56,0.64,1) ' + (i * 0.03) + 's';
+                p.style.transition = 'opacity 0.5s ease ' + (i * 0.08) + 's, transform 0.6s cubic-bezier(0.34,1.56,0.64,1) ' + (i * 0.08) + 's';
                 p.style.opacity = '1';
                 p.style.transform = 'scale(1)';
             });
-        }, 650);
+        }, 1500);
 
         /* Pop in center */
+        const petalsDuration = petals.length * 80 + 300; /* stagger + animation */
         setTimeout(() => {
-            center.style.transition = 'opacity 0.3s ease, transform 0.4s cubic-bezier(0.34,1.56,0.64,1)';
+            center.style.transition = 'opacity 0.4s ease, transform 0.5s cubic-bezier(0.34,1.56,0.64,1)';
             center.style.opacity = '1';
             center.style.transform = 'scale(1)';
-        }, 1000);
+        }, 1500 + petalsDuration);
+
+        /* Callback when complete */
+        const totalDuration = 1500 + petalsDuration + 500 + 600; /* extra settle time */
+        if (onComplete) {
+            setTimeout(onComplete, totalDuration);
+        }
     }
 
     /* ── Photo collage ── */
@@ -501,7 +574,7 @@
             setTimeout(() => {
                 wrap.classList.add('visible');
                 wrap.style.transform = 'scale(1) rotate(' + spots[i].r + 'deg)';
-            }, i * 220);
+            }, i * 800);
         });
     }
 </script>
