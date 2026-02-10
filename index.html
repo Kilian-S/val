@@ -396,10 +396,31 @@
         }
     });
 
+    /* ── Preload images ── */
+    const photoSrcs = [
+        'photos/45AE62F1-A26B-4FF1-83AB-F50F330DBDE5_1_105_c.jpeg',
+        'photos/70690C3A-7A97-4BF9-9FF4-1E2101E52FF5_1_105_c.jpeg',
+        'photos/IMG-20250602-WA0005.jpg',
+        'photos/IMG-20250826-WA0001.jpg',
+        'photos/IMG-20250826-WA0005.jpg',
+        'photos/IMG-20250826-WA0006.jpg',
+        'photos/PXL-20250604-224623582MP.gif',
+    ];
+
+    function preloadImages() {
+        photoSrcs.forEach(src => {
+            const img = new Image();
+            img.src = src;
+        });
+    }
+
     /* ── Yes click → celebration ── */
     yesBtn.addEventListener('click', () => {
         card.classList.add('hidden');
         noBtn.style.display = 'none';
+
+        /* Start preloading images immediately */
+        preloadImages();
 
         setTimeout(() => {
             card.style.display = 'none';
@@ -537,14 +558,14 @@
 
     /* ── Photo collage ── */
     function scatterPhotos() {
-        const photos = [
-            { src: 'photos/45AE62F1-A26B-4FF1-83AB-F50F330DBDE5_1_105_c.jpeg', w: 158, h: 211 },
-            { src: 'photos/70690C3A-7A97-4BF9-9FF4-1E2101E52FF5_1_105_c.jpeg', w: 217, h: 290 },
-            { src: 'photos/IMG-20250602-WA0005.jpg',  w: 173, h: 230 },
-            { src: 'photos/IMG-20250826-WA0001.jpg',  w: 154, h: 275 },
-            { src: 'photos/IMG-20250826-WA0005.jpg',  w: 257, h: 151 },
-            { src: 'photos/IMG-20250826-WA0006.jpg',  w: 154, h: 275 },
-            { src: 'photos/PXL-20250604-224623582MP.gif', w: 198, h: 264 },
+        const photoSizes = [
+            { w: 158, h: 211 },
+            { w: 217, h: 290 },
+            { w: 173, h: 230 },
+            { w: 154, h: 275 },
+            { w: 257, h: 151 },
+            { w: 154, h: 275 },
+            { w: 198, h: 264 },
         ];
 
         /* Left column: photos 0, 2, 4, 6  |  Right column: photos 5, 3, 1 */
@@ -558,16 +579,16 @@
             { x: 8, y: 56, r: -3  },   /* 6  left-bottom    (GIF warehouse) */
         ];
 
-        photos.forEach((ph, i) => {
+        photoSrcs.forEach((src, i) => {
             const wrap = document.createElement('div');
             wrap.className = 'collage-photo';
-            wrap.style.width  = ph.w + 'px';
-            wrap.style.height = ph.h + 'px';
+            wrap.style.width  = photoSizes[i].w + 'px';
+            wrap.style.height = photoSizes[i].h + 'px';
             wrap.style.left   = spots[i].x + 'vw';
             wrap.style.top    = spots[i].y + 'vh';
 
             const img = document.createElement('img');
-            img.src = ph.src;
+            img.src = src;
             wrap.appendChild(img);
             celeb.appendChild(wrap);
 
